@@ -1,0 +1,41 @@
+gsutil mb -l $LOCATION gs://$DEVSHELL_PROJECT_ID
+
+
+gsutil cp gs://cloud-training/gcpfci/my-excellent-blog.png my-excellent-blog.png
+gsutil cp my-excellent-blog.png gs://$DEVSHELL_PROJECT_ID/my-excellent-blog.png
+
+gsutil acl ch -u allUsers:R gs://$DEVSHELL_PROJECT_ID/my-excellent-blog.pn
+
+
+gcloud container clusters create webfrontend --zone $MY_ZONE --num-nodes 2
+
+gcloud config list project
+
+gcloud compute networks create privatenet --subnet-mode=custom
+
+
+gcloud compute networks subnets create privatesubnet-us --network=privatenet --region=us-central1 --range=172.16.0.0/24
+
+
+gcloud compute networks subnets create privatesubnet-eu --network=privatenet --region=europe-west1 --range=172.20.0.0/20
+
+
+gcloud compute networks list
+
+
+gcloud compute networks subnets list --sort-by=NETWORK
+
+
+gcloud compute --project=qwiklabs-gcp-02-ec47468b9100 firewall-rules create managementnet-allow-icmp-ssh-rdp --direction=INGRESS --priority=1000 --network=management --action=ALLOW --rules=tcp:22,tcp:3389,icmp --source-ranges=0.0.0.0/0 --target-tags=management
+
+gcloud compute --project "qwiklabs-gcp-04-f607a4ad7899" target-vpn-gateways create "vpn-1" --region "us-central1" --network "vpn-network-1"
+
+gcloud compute --project "qwiklabs-gcp-04-f607a4ad7899" forwarding-rules create "vpn-1-rule-esp" --region "us-central1" --address "35.222.148.73" --ip-protocol "ESP" --target-vpn-gateway "vpn-1"
+
+gcloud compute --project "qwiklabs-gcp-04-f607a4ad7899" forwarding-rules create "vpn-1-rule-udp500" --region "us-central1" --address "35.222.148.73" --ip-protocol "UDP" --ports "500" --target-vpn-gateway "vpn-1"
+
+gcloud compute --project "qwiklabs-gcp-04-f607a4ad7899" forwarding-rules create "vpn-1-rule-udp4500" --region "us-central1" --address "35.222.148.73" --ip-protocol "UDP" --ports "4500" --target-vpn-gateway "vpn-1"
+
+gcloud compute --project "qwiklabs-gcp-04-f607a4ad7899" vpn-tunnels create "tunnelt1to2" --region "us-central1" --peer-address "34.78.165.202" --shared-secret "gcprocks" --ike-version "2" --local-traffic-selector "0.0.0.0/0" --target-vpn-gateway "vpn-1"
+
+gcloud compute --project "qwiklabs-gcp-04-f607a4ad7899" routes create "tunnelt1to2-route-1" --network "vpn-network-1" --next-hop-vpn-tunnel "tunnelt1to2" --next-hop-vpn-tunnel-region "us-central1" --destination-range "10.1.3.0/24"
