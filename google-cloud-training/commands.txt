@@ -1,6 +1,7 @@
 gsutil mb -l $LOCATION gs://$DEVSHELL_PROJECT_ID
 gcloud app create --region=us-central
 gcloud app deploy --version=two --no-promote --quiet
+gcloud builds submit --tag gcr.io/$DEVSHELL_PROJECT_ID/devops-image:v0.2 .
 
 gsutil cp gs://cloud-training/gcpfci/my-excellent-blog.png my-excellent-blog.png
 gsutil cp my-excellent-blog.png gs://$DEVSHELL_PROJECT_ID/my-excellent-blog.png
