@@ -2,3 +2,4 @@ User identity via Google Cloud Directory Sync (GCDS) from on-premise
 Network connectivity between colo and GCP via two VPN tunnels
 Organization node, folders by department and use case, project by environment
 IAM roles commonly Project Owner, not Project Creator.
+cloud dataproc = Managed service for apache hadoop clusters (can be used for realtime trend analysis)
