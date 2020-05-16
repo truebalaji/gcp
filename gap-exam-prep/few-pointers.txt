@@ -5,7 +5,7 @@ IAM roles commonly Project Owner, not Project Creator.
 cloud dataproc = Managed service for apache hadoop clusters (can be used for realtime trend analysis)
 
 BigQuery=DataWarehouse
-Bigtable=NoSQL=High Throughput
+Bigtable=NoSQL=High Throughput=Apache HBase
 FireBase Realtime DB=Mobile SDK
 Cloud Spanner=Relational=Horizontal scaling
 Cloud SQL=Relational Mysql/Postgres/sqlserver
