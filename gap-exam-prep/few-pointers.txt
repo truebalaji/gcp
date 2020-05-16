@@ -13,3 +13,7 @@ cloud storage=s3 bucket=object storage=offers 4 storage classes=Multi-regional,r
 Cloud Data Store/Firestore=NoSQL DB
 
 For Mobile solutions use=Cloud storage for firebase or Firebase realtime DB or Firebase Hosting
+
+Cloud Dataflow = Streaming, ETL, Batch = use it for high volume
+Cloud IOT core= offers device registration, authentication for IOT
+Cloud Functions = Event driven like aws lamda use it for IOT events
