@@ -31,3 +31,8 @@ cloud VPN is useful for low volume connections
 Partnet interconnect supports upto 10Gbps speed
 Dedicated interconnect useful from 10Gb to 80Gb
 All google APIs are encrypted in transit and authenticated
+
+Cloud Composer, based on Apache Airflow, is a service that provides extensible dependency
+management for complex workflows. Because the Directed Acyclic Graphs (DAGs) are written
+in Python, Cloud Composer can be extended to coordinate and orchestrate anything with a
+Python-compatible API -- which are most services today.
