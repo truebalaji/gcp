@@ -23,3 +23,11 @@ App engine = uses cloud build
 Cloud Armor = use it with Https global load balancer to prevent DDOS attacks
 SSD uses AES256 encryption
 HDD uses AES 128 encryption
+
+Use stackdriver custom metric with Autoscaling rathen than cpu utilization
+for example for a game application the custom metric can be number of players
+
+cloud VPN is useful for low volume connections
+Partnet interconnect supports upto 10Gbps speed
+Dedicated interconnect useful from 10Gb to 80Gb
+All google APIs are encrypted in transit and authenticated
