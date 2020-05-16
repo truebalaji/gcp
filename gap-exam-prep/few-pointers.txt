@@ -20,3 +20,6 @@ Cloud Functions = Event driven like aws lamda use it for IOT events
 Cloud Build = like docker in google cloud
 App Engine Flexible uses Docker as runtime
 App engine = uses cloud build
+Cloud Armor = use it with Https global load balancer to prevent DDOS attacks
+SSD uses AES256 encryption
+HDD uses AES 128 encryption
