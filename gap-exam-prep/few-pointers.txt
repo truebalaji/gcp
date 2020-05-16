@@ -3,3 +3,13 @@ Network connectivity between colo and GCP via two VPN tunnels
 Organization node, folders by department and use case, project by environment
 IAM roles commonly Project Owner, not Project Creator.
 cloud dataproc = Managed service for apache hadoop clusters (can be used for realtime trend analysis)
+
+BigQuery=DataWarehouse
+Bigtable=NoSQL=High Throughput
+FireBase Realtime DB=Mobile SDK
+Cloud Spanner=Relational=Horizontal scaling
+Cloud SQL=Relational Mysql/Postgres/sqlserver
+cloud storage=s3 bucket=object storage=offers 4 storage classes=Multi-regional,regional,nearline,coldline
+Cloud Data Store/Firestore=NoSQL DB
+
+For Mobile solutions use=Cloud storage for firebase or Firebase realtime DB or Firebase Hosting
