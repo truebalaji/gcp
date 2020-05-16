@@ -17,3 +17,6 @@ For Mobile solutions use=Cloud storage for firebase or Firebase realtime DB or F
 Cloud Dataflow = Streaming, ETL, Batch = use it for high volume
 Cloud IOT core= offers device registration, authentication for IOT
 Cloud Functions = Event driven like aws lamda use it for IOT events
+Cloud Build = like docker in google cloud
+App Engine Flexible uses Docker as runtime
+App engine = uses cloud build
