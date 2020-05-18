@@ -43,3 +43,10 @@ docker push gcr.io/qwiklabs-gcp-02-b2f95277e120/echo-app:v2
 ---security
 Trusted server boot=Titan security chip in google systems 
 Google cloud directory sync = sunc up micrsoft active directory or LDAP with google cloud
+IAM roles = primitive, predefined, custom
+primitive= fixed roles applied at project level
+primitive roles=owner, editor, viewer
+predefined roles = designed to map job functions like compute network admin, security reviewer etc.,
+predefined browser role=gives access to browse hierarchy of project
+predefined roles=permissions for services like instanceadmin role = compute instances delete, get, list etc.,
+custom roles=example privacy reviewer role
