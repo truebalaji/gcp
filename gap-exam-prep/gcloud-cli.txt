@@ -38,13 +38,23 @@ includedPermissions:
 title: App Viewer
 description: Custom role to view apps
 stage: ALPHA
+includedPermissions:
+- compute.instances.get
+- compute.instances.list
+- appengine.versions.get
+- appengine.versions.list
+
+///
 
 gcloud auth list
 gcloud config list project
-//create network in auto mode
+
+//create network in auto mode-------------------------------
+
 gcloud compute networks create mynetwork --subnet-mode=auto
 
 //create custom metwork
+
 gcloud compute networks create privatenet \
 --subnet-mode=custom
 
@@ -74,10 +84,4 @@ gcloud compute instances create privatenet-bastion \
 
 gcloud compute instances create privatenet-us-vm \
 --zone=us-central1-f --subnet=privatesubnet
-includedPermissions:
-- compute.instances.get
-- compute.instances.list
-- appengine.versions.get
-- appengine.versions.list
 
-///
