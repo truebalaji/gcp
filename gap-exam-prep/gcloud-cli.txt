@@ -1,0 +1,83 @@
+gcloud iam roles create app_viewer --project \
+> $DEVSHELL_PROJECT_ID --file role.yaml
+
+gsutil mb -l us-central1 gs://$DEVSHELL_PROJECT_ID
+
+gsutil cp sample.txt gs://$DEVSHELL_PROJECT_ID
+
+gcloud iam roles describe app_viewer --project \
+$DEVSHELL_PROJECT_ID
+
+gcloud iam roles update app_viewer --project \
+$DEVSHELL_PROJECT_ID --file update-role.yaml
+
+gcloud iam roles update app_viewer --project \
+$DEVSHELL_PROJECT_ID --stage DISABLED // disable a role
+
+gcloud iam roles delete app_viewer --project \
+$DEVSHELL_PROJECT_ID //delete a role
+
+gcloud iam roles undelete app_viewer --project \
+$DEVSHELL_PROJECT_ID //undelete role file
+
+gcloud iam roles list --project $DEVSHELL_PROJECT_ID //list roles
+
+//sample role file - 1
+title: Privacy Reviewer
+description: Custom role to perform data reviews
+stage: ALPHA
+includedPermissions:
+- storage.buckets.list
+- storage.objects.list
+- storage.objects.get
+- spanner.databases.get- spanner.databases.list
+- bigtable.tables.get
+- bigtable.tables.list
+- bigtable.tables.readRows
+//-sample role file - 2
+title: App Viewer
+description: Custom role to view apps
+stage: ALPHA
+
+gcloud auth list
+gcloud config list project
+//create network in auto mode
+gcloud compute networks create mynetwork --subnet-mode=auto
+
+//create custom metwork
+gcloud compute networks create privatenet \
+--subnet-mode=custom
+
+gcloud compute networks subnets create privatesubnet \
+--network=privatenet --region=us-central1 \
+--range=10.0.0.0/24 --enable-private-ip-google-access
+
+Instances on this network will not be reachable until firewall rules
+are created. As an example, you can allow all internal traffic between
+instances as well as SSH, RDP, and ICMP by running:
+$ gcloud compute firewall-rules create <FIREWALL_NAME> --network mynetwork --allow tcp,udp,icmp --source-ranges <IP_RANGE>
+$ gcloud compute firewall-rules create <FIREWALL_NAME> --network mynetwork --allow tcp:22,tcp:3389,icmp
+
+To create some instances to use later for testing in all networks, run these commands:
+
+gcloud compute instances create default-us-vm \
+--zone=us-central1-a --network=default
+
+gcloud compute instances create mynet-us-vm \
+--zone=us-central1-a --network=mynetwork
+
+gcloud compute instances create mynet-eu-vm \
+--zone=europe-west1-b --network=mynetwork
+
+gcloud compute instances create privatenet-bastion \
+--zone=us-central1-c --subnet=privatesubnet --can-ip-forward
+
+gcloud compute instances create privatenet-us-vm \
+--zone=us-central1-f --subnet=privatesubnet
+includedPermissions:
+- compute.instances.get
+- compute.instances.list
+- appengine.versions.get
+- appengine.versions.list
+
+///
