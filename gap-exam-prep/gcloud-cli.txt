@@ -85,3 +85,46 @@ gcloud compute instances create privatenet-bastion \
 gcloud compute instances create privatenet-us-vm \
 --zone=us-central1-f --subnet=privatesubnet
 
+gcloud compute ssh qwiklabs@mynet-eu-vm --zone europe-west1-b //ssh into instance
+
+To retrieve the external IP address of the Cloud Shell instance, run the following commands:
+
+ip=$(curl -s https://api.ipify.org)
+echo "My External IP address is: $ip"
+
+To add a firewall rule that allows port 22 (SSH) traffic from the Cloud Shell IP address, run the following command:
+
+gcloud compute firewall-rules create \
+mynetwork-ingress-allow-ssh-from-cs \
+--network mynetwork --action ALLOW --direction INGRESS \
+--rules tcp:22 --source-ranges $ip --target-tags=lab-ssh
+
+Important You have just created and applied a firewall rule using a tag. One issue with tags is that they must be added to instances and could possibly be added or removed inadvertently. Firewall rules can also be applied to instances by the service account used. These rules will be applied automatically to all instances that use the specified service account.
+
+To add the lab-ssh network tag to the mynet-eu-vm and mynet-us-vm instances, run the following commands in Cloud Shell:
+
+gcloud compute instances add-tags mynet-eu-vm \
+    --zone europe-west1-b \
+    --tags lab-ssh
+gcloud compute instances add-tags mynet-us-vm \
+    --zone us-central1-a \
+    --tags lab-ssh
+    
+To add a firewall rule that allows ALL instances in the mynetwork VPC to ping each other, run the following command:
+
+gcloud compute firewall-rules create \
+mynetwork-ingress-allow-icmp-internal --network \
+mynetwork --action ALLOW --direction INGRESS --rules icmp \
+--source-ranges 10.128.0.0/9
+
+//List all firewall rules//
+
+gcloud compute firewall-rules list \
+--filter="network:mynetwork"
+
+//Create a egress firewall rule to block any IP with priority 10000 
+
+gcloud compute firewall-rules create \
+mynetwork-egress-deny-icmp-all --network \
+mynetwork --action DENY --direction EGRESS --rules icmp \
+--priority 10000
