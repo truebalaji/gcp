@@ -187,3 +187,6 @@ gcloud compute instances create default-ap-vm \
 
 gcloud compute networks subnets update default \
 --region europe-west1 --no-enable-flow-logs
+
+//another command to create customer supplied encryption key//
+python3 -c 'import base64; import os; print(base64.encodebytes(os.urandom(32)))'
