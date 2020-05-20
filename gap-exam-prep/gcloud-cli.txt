@@ -20,6 +20,12 @@ $DEVSHELL_PROJECT_ID //delete a role
 gcloud iam roles undelete app_viewer --project \
 $DEVSHELL_PROJECT_ID //undelete role file
 
+There are three types of roles in Cloud IAM:
+
+Primitive roles, which include the Owner, Editor, and Viewer roles that existed prior to the introduction of Cloud IAM.
+Predefined roles, which provide granular access for a specific service and are managed by GCP.
+Custom roles, which provide granular access according to a user-specified list of permissions.
+
 gcloud iam roles list --project $DEVSHELL_PROJECT_ID //list roles
 
 //sample role file - 1
@@ -86,6 +92,12 @@ gcloud compute instances create privatenet-us-vm \
 --zone=us-central1-f --subnet=privatesubnet
 
 gcloud compute ssh qwiklabs@mynet-eu-vm --zone europe-west1-b //ssh into instance
+
+gcloud iam service-accounts create my-sa-123 --display-name "my service account"
+
+Run the following in Cloud Shell to grant roles to the service account you just made
+gcloud projects add-iam-policy-binding $DEVSHELL_PROJECT_ID \
+    --member serviceAccount:my-sa-123@$DEVSHELL_PROJECT_ID.iam.gserviceaccount.com --role roles/editor
 
 To retrieve the external IP address of the Cloud Shell instance, run the following commands:
 
