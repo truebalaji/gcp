@@ -190,3 +190,25 @@ gcloud compute networks subnets update default \
 
 //another command to create customer supplied encryption key//
 python3 -c 'import base64; import os; print(base64.encodebytes(os.urandom(32)))'
+
+Run the following command in Cloud shell to enable Cloud KMS:
+gcloud services enable cloudkms.googleapis.com
+
+Execute the following command to create the KeyRing. For this lab, the location will be set to us, but it could also be a specific region.
+
+gcloud kms keyrings create $KEYRING_NAME --location us
+
+Next, using the new KeyRing, create a CryptoKey named labkey-1.
+
+gcloud kms keys create $CRYPTOKEY_1_NAME --location us \
+--keyring $KEYRING_NAME --purpose encryption
+
+Create another CryptoKey named labkey-2.
+
+gcloud kms keys create $CRYPTOKEY_2_NAME --location us \
+--keyring $KEYRING_NAME --purpose encryption
+
+Run the following command to view the default encryption key for your bucket:
+gsutil kms encryption gs://$DEVSHELL_PROJECT_ID-kms
+
+The bucket should not currently have a default encryption key. This means all data in the bucket will be encrypted by Google managed encryption keys.
