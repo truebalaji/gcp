@@ -157,6 +157,29 @@ gcloud compute instances create default-us-vm \
 gcloud compute instances create default-eu-vm \
 --zone=europe-west1-b --network=default
 
+create a user key = openssl rand 32 > mykey.txt
+
+Note: The following steps will use openssl to wrap your key. There are many ways to RSA-wrap keys and you can alternatively use a method that is familiar to you.
+
+From the cloud shell command prompt, use the following command to download the Google Compute Engine public certificate:
+
+curl \
+https://cloud-certs.storage.googleapis.com/google-cloud-csek-ingress.pem \
+> gce-cert.pem
+
+Extract the public key from the certificate with the following command:
+
+openssl x509 -pubkey -noout -in gce-cert.pem > pubkey.pem
+
+RSA-wrap your key with the following command:
+
+openssl rsautl -oaep -encrypt -pubin -inkey pubkey.pem -in \
+mykey.txt -out rsawrappedkey.txt
+
+Encode your RSA-wrapped key in base64:
+
+openssl enc -base64 -in rsawrappedkey.txt | tr -d '\n' | sed -e \
+'$a\' > rsawrapencodedkey.txt
 gcloud compute instances create default-ap-vm \
 --zone=asia-southeast1-a --network=default
 
