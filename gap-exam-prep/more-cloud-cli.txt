@@ -77,4 +77,25 @@ gcloud sql users set-password root --instance demo-sql --password demo-pass
     curl -sSO https://dl.google.com/cloudagents/install-monitoring-agent.sh
     bash install-monitoring-agent.sh
 
+//get iam policy for curr projectent
+gcloud projects get-iam-policy $DEVSHELL_PROJECT_ID \
+--format=json >./policy.json
+
+//some useful commands
+gsutil mb gs://$DEVSHELL_PROJECT_ID
+echo "this is a sample file" > sample.txt
+gsutil cp sample.txt gs://$DEVSHELL_PROJECT_ID
+gcloud compute networks create mynetwork --subnet-mode=auto
+gcloud compute instances create default-us-vm \
+--zone=us-central1-a --network=mynetwork
+gsutil rm -r gs://$DEVSHELL_PROJECT_ID
+//
+
+//gcloud logging 
+gcloud logging read \
+"logName=projects/$DEVSHELL_PROJECT_ID/logs/cloudaudit.googleapis.com%2Factivity \
+AND protoPayload.serviceName=storage.googleapis.com \
+AND protoPayload.methodName=storage.buckets.delete"
+//
+
 
