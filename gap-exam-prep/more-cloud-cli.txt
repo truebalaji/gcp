@@ -51,5 +51,30 @@ gcloud compute backend-services get-health web-backend --global
 Retrieve the load balancer IP address with:
 gcloud compute forwarding-rules describe web-rule --global
 
+curl https://storage.googleapis.com/cloud-training/gcpsec/labs/stackdriver-lab.tgz | tar -zxf -
+
+gcloud services enable container.googleapis.com
+gcloud container clusters create demo-gke --num-nodes 3 --zone us-central1-a
+kubectl create deployment nginx --image=nginx
+kubectl expose deployment nginx  --type=LoadBalancer --port 80
+kubectl create -f basic-ingress.yaml
+
+gcloud services enable pubsub.googleapis.com
+gcloud alpha pubsub topics create demo-topic
+gcloud alpha pubsub subscribers create demo-sub --topic demo-topic
+
+gcloud services enable sql-component.googleapis.com
+gcloud services enable sqladmin.googleapis.com
+gcloud sql instances create demo-sql
+gcloud sql databases create demo-db --instance demo-sql
+gcloud sql users set-password root --instance demo-sql --password demo-pass
+
+# install logging agent
+    curl -sSO https://dl.google.com/cloudagents/install-logging-agent.sh
+    bash install-logging-agent.sh
+
+    # install monitoring agent
+    curl -sSO https://dl.google.com/cloudagents/install-monitoring-agent.sh
+    bash install-monitoring-agent.sh
 
 
