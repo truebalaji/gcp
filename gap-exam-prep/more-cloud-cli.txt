@@ -1,0 +1,55 @@
+Run the following command to create a firewall rule to allow port 80 traffic:
+
+gcloud compute firewall-rules create \
+   www-firewall-network-lb --target-tags network-lb-tag \
+   --allow tcp:80
+
+Run the following command to create an instance template named web-template. The template specifies a startup script that will install Apache, and creates a home page to display the zone the server is running in:
+
+gcloud compute instance-templates create web-template \
+    --machine-type=n1-standard-4 \
+    --image-family=debian-9 \
+    --image-project=debian-cloud \
+    --machine-type=n1-standard-1 \
+    --tags=network-lb-tag \
+    --metadata=startup-script=\#\!\ /bin/bash$'\n'apt-get\ update$'\n'apt-get\ install\ apache2\ -y$'\n'service\ apache2\ restart$'\n'ZONE=\$\(curl\ \"http://metadata.google.internal/computeMetadata/v1/instance/zone\"\ -H\ \"Metadata-Flavor:\ Google\"\)$'\n'echo\ \'\<\!doctype\ html\>\<html\>\<body\>\<h1\>Web\ server\</h1\>\<h2\>This\ server\ is\ in\ zone:\ ZONE_HERE\</h2\>\</body\>\</html\>\'\ \|\ tee\ /var/www/html/index.html$'\n'sed\ -i\ \"s\|ZONE_HERE\|\$ZONE\|\"\ /var/www/html/index.html
+    
+Run the following command to create a basic http health check:
+gcloud compute http-health-checks create basic-http-check
+
+Run the following command to create a managed instance group with 3 instances:
+
+gcloud compute instance-groups managed create web-group \
+   --template web-template --size 3 --zones \
+   us-central1-a,us-central1-b,us-central1-c,us-central1-f
+   
+Run the following commands to create the load balancing service:
+
+gcloud compute instance-groups managed set-named-ports \
+   web-group --named-ports http:80 --region us-central1
+gcloud compute backend-services create web-backend \
+   --global \
+   --port-name=http \
+   --protocol HTTP \
+   --http-health-checks basic-http-check
+gcloud compute backend-services add-backend web-backend \
+   --instance-group web-group \
+   --global \
+   --instance-group-region us-central1
+gcloud compute url-maps create web-lb \
+   --default-service web-backend
+gcloud compute target-http-proxies create web-lb-proxy \
+   --url-map web-lb
+gcloud compute forwarding-rules create web-rule \
+   --global \
+   --target-http-proxy web-lb-proxy \
+   --ports 80
+   
+ You can check if the instances are registered with:
+gcloud compute backend-services get-health web-backend --global
+
+Retrieve the load balancer IP address with:
+gcloud compute forwarding-rules describe web-rule --global
+
+
+
