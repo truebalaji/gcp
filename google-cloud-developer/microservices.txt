@@ -1,0 +1,5 @@
+secure,scalabale, resilient, highly scalable
+Build Microservices based architecture 
+
+treat your logs as event streams
+dont handle logs in application
