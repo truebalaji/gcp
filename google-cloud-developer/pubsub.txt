@@ -10,6 +10,8 @@ Now pull the message from the feedback topic with automatic acknowledgement of t
 To pull a message from the worker-subscription, execute the following command:
      gcloud pubsub subscriptions pull worker-subscription --auto-ack
      
+Cloud Functions can serve as WebHooks when invoked by using the direct HTTP request response method
+     
 ------echo "Creating App Engine app"
 gcloud app create --region "us-central"
 echo "Making bucket: gs://$DEVSHELL_PROJECT_ID-media"
