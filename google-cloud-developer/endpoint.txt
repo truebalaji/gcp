@@ -1,0 +1,10 @@
+To deploy the Open API specification as a Cloud Endpoint, execute the following command in the Cloud Shell window:
+gcloud endpoints services deploy quiz-api.json
+
+To view the Open API configuration name, execute the following command:
+gcloud endpoints configs list --service=quiz-api.endpoints. <GCP-Project-ID>.cloud.goog
+
+gcloud endpoints configs list --service=quiz-a
+pi.endpoints.qwiklabs-gcp-01-a65365e69098.cloud.goog
+CONFIG_ID     SERVICE_NAME
+2020-05-25r0  quiz-api.endpoints.qwiklabs-gcp-01-a65365e69098.cloud.goog
