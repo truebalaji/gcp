@@ -9,3 +9,22 @@ Now pull the message from the feedback topic with automatic acknowledgement of t
      
 To pull a message from the worker-subscription, execute the following command:
      gcloud pubsub subscriptions pull worker-subscription --auto-ack
+     
+------echo "Creating App Engine app"
+gcloud app create --region "us-central"
+echo "Making bucket: gs://$DEVSHELL_PROJECT_ID-media"
+gsutil mb gs://$DEVSHELL_PROJECT_ID-media
+echo "Exporting GCLOUD_PROJECT and GCLOUD_BUCKET"
+export GCLOUD_PROJECT=$DEVSHELL_PROJECT_ID
+export GCLOUD_BUCKET=$DEVSHELL_PROJECT_ID-media
+echo "Installing dependencies"
+npm install -g npm@6.11.3
+npm update
+echo "Creating Datastore entities"
+node setup/add_entities.js
+echo "Creating Cloud Pub/Sub topic"
+gcloud pubsub topics create feedback
+echo "Creating Cloud Spanner Instance, Database, and Table"
+gcloud spanner instances create quiz-instance --config=regional-us-central1 --description="Quiz instance" --nodes=1
+gcloud spanner databases create quiz-database --instance quiz-instance --ddl "CREATE TABLE Feedback ( feedbackId STRING(100) NOT NULL, email STRI
+NG(100), quiz STRING(20), feedback STRING(MAX), rating INT64, score FLOAT64, timestamp INT64 ) PRIMARY KEY (feedbackId);"
