@@ -1,0 +1,11 @@
+Create a Cloud Pub/Sub subscription named worker-subscription against the feedback topic:
+     gcloud pubsub subscriptions create worker-subscription --topic feedback
+     
+Publish a "Hello World" message into the feedback topic:
+     gcloud pubsub topics publish feedback --message "Hello World"
+     
+Now pull the message from the feedback topic with automatic acknowledgement of the message:
+     gcloud pubsub subscriptions pull worker-subscription --auto-ack
+     
+To pull a message from the worker-subscription, execute the following command:
+     gcloud pubsub subscriptions pull worker-subscription --auto-ack
